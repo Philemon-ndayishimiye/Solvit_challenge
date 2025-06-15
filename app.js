@@ -5,18 +5,16 @@ const editForm = document.getElementById("edit-form");
 const editModal = document.getElementById("edit-modal");
 const closeBtn = document.getElementById("close-btn");
 
-
 function saveToLocalStorage() {
-  localStorage.setItem('expenses', JSON.stringify(ExpData));
+  localStorage.setItem("expenses", JSON.stringify(ExpData));
 }
 
 function loadFromLocalStorage() {
-  const data = localStorage.getItem('expenses');
+  const data = localStorage.getItem("expenses");
   if (data) {
     ExpData.push(...JSON.parse(data));
   }
 }
-
 
 const expenseForm = document.getElementById("form_data");
 
@@ -28,15 +26,13 @@ function getFormData(FormElement) {
   data.date = data.date.trim();
   data.amount = Number(data.amount);
 
-  
   if (!data.description || !data.date || !data.amount) {
-    alert('Every field must be filled');
+    alert("Every field must be filled");
     return null;
   }
 
   return data;
 }
-
 
 // Handle form submission
 
@@ -45,42 +41,44 @@ function HandleSubmit(e) {
 
   const data = getFormData(this);
 
-  
   if (!data) return;
 
   ExpData.push(data);
 
-  console.log('User data:', ExpData);
+  console.log("User data:", ExpData);
 
   UpdateTotal();
   UpdateTable();
   UpdateFlex();
-  saveToLocalStorage(); 
+  saveToLocalStorage();
   expenseForm.reset(); // Clear form after submit
 }
 
-
-expenseForm.addEventListener('submit', HandleSubmit);
+expenseForm.addEventListener("submit", HandleSubmit);
 
 // === Table rendering function ===
 function UpdateTable() {
-  const Tbody = document.getElementById('table_body');
+  const Tbody = document.getElementById("table_body");
   Tbody.innerHTML = ""; // Clear previous rows
 
   ExpData.forEach((expense, index) => {
-    const row = document.createElement('tr');
+    const row = document.createElement("tr");
     row.innerHTML = `
       <td>${expense.description}</td>
-      <td style="color: ${expense.amount >= 0 ? 'green' : 'red'}">${expense.amount}</td>
+      <td style="color: ${expense.amount >= 0 ? "green" : "red"}">${
+      expense.amount
+    }</td>
       <td>${expense.date}</td>
       <td>
+        <div class="action-buttons">
         <button class="edit-btn">Edit</button>
         <button class="delete-btn">Delete</button>
+      </div>
       </td>
     `;
 
     // DELETE
-    row.querySelector('.delete-btn').addEventListener('click', () => {
+    row.querySelector(".delete-btn").addEventListener("click", () => {
       ExpData.splice(index, 1);
       UpdateTotal();
       UpdateTable();
@@ -89,7 +87,7 @@ function UpdateTable() {
     });
 
     // EDIT using modal
-    row.querySelector('.edit-btn').addEventListener('click', () => {
+    row.querySelector(".edit-btn").addEventListener("click", () => {
       currentEditIndex = index;
 
       editForm.description.value = expense.description;
@@ -105,10 +103,8 @@ function UpdateTable() {
 
 // === Flexbox rendering function ===
 
-
 function UpdateFlex() {
-
-  const container = document.getElementById('container_data');
+  const container = document.getElementById("container_data");
   container.innerHTML = ""; // Clear previous content
 
   const editModal = document.getElementById("edit-modal");
@@ -141,7 +137,7 @@ function UpdateFlex() {
       UpdateTotal();
       UpdateFlex();
       UpdateTable();
-      saveToLocalStorage(); 
+      saveToLocalStorage();
     });
 
     // EDIT
@@ -165,7 +161,6 @@ function UpdateFlex() {
   });
 }
 
-
 function getFormData(FormElement) {
   const formData = new FormData(FormElement);
   const data = Object.fromEntries(formData.entries());
@@ -175,7 +170,7 @@ function getFormData(FormElement) {
   data.amount = Number(data.amount);
 
   if (!data.description || !data.date || !data.amount) {
-    alert('Every field must be filled');
+    alert("Every field must be filled");
     return null;
   }
 
@@ -191,7 +186,7 @@ editForm.addEventListener("submit", (e) => {
   // Update the correct item
   ExpData[currentEditIndex] = {
     ...ExpData[currentEditIndex],
-    ...data
+    ...data,
   };
 
   editModal.style.display = "none";
@@ -229,31 +224,28 @@ function UpdateTotal() {
   } else if (total > 0) {
     headTotal.style.color = "green";
   } else {
-    headTotal.style.color = "black"; // for zero 
+    headTotal.style.color = "black"; // for zero
   }
 }
 
-
-
-// filtering by amount 
+// filtering by amount
 
 function filterExpenses() {
-  const minAmount = parseFloat(document.getElementById('minAmount').value);
-  const maxAmount = parseFloat(document.getElementById('maxAmount').value);
-  const startDate = document.getElementById('startDate').value; // string in "YYYY-MM-DD"
-  const endDate = document.getElementById('endDate').value;
- 
+  const minAmount = parseFloat(document.getElementById("minAmount").value);
+  const maxAmount = parseFloat(document.getElementById("maxAmount").value);
+  const startDate = document.getElementById("startDate").value; // string in "YYYY-MM-DD"
+  const endDate = document.getElementById("endDate").value;
 
   // Filtered array based on conditions
-  const filtered = ExpData.filter(expense => {
+  const filtered = ExpData.filter((expense) => {
     const amount = expense.amount;
     const date = expense.date; // assuming date is stored as "YYYY-MM-DD"
 
     // Amount filters
     if (!isNaN(minAmount) && amount < minAmount) return false;
     if (!isNaN(maxAmount) && amount > maxAmount) return false;
-    
-     // Date filters (compare strings as YYYY-MM-DD, or convert to Date objects for safety)
+
+    // Date filters (compare strings as YYYY-MM-DD, or convert to Date objects for safety)
     if (startDate && date < startDate) return false;
     if (endDate && date > endDate) return false;
 
@@ -264,10 +256,10 @@ function filterExpenses() {
   renderFilteredExpenses(filtered);
 }
 
-// rendering filtering 
+// rendering filtering
 
 function renderFilteredExpenses(expenses) {
-  const container = document.getElementById('container_data');
+  const container = document.getElementById("container_data");
   container.innerHTML = "";
 
   expenses.forEach((expense) => {
@@ -296,7 +288,10 @@ function renderFilteredExpenses(expenses) {
 
     // Edit functionality
     editBtn.addEventListener("click", () => {
-      const newDescription = prompt("Enter new description:", expense.description);
+      const newDescription = prompt(
+        "Enter new description:",
+        expense.description
+      );
       const newAmount = prompt("Enter new amount:", expense.amount);
       const newDate = prompt("Enter new date:", expense.date);
 
@@ -306,21 +301,21 @@ function renderFilteredExpenses(expenses) {
         expense.date = newDate;
 
         // Re-render with current filter applied (or just update the UI)
-        filterExpenses();  // assuming you have this function to filter and render
+        filterExpenses(); // assuming you have this function to filter and render
         UpdateTotal();
-        saveToLocalStorage(); 
+        saveToLocalStorage();
       }
     });
 
     // Delete functionality
     deleteBtn.addEventListener("click", () => {
       // Find index in main ExpData array
-      const idx = ExpData.findIndex(item => item === expense);
+      const idx = ExpData.findIndex((item) => item === expense);
       if (idx !== -1) {
-        ExpData.splice(idx, 1);       // Remove from main array
-        filterExpenses();             // Re-apply filter and re-render UI
+        ExpData.splice(idx, 1); // Remove from main array
+        filterExpenses(); // Re-apply filter and re-render UI
         UpdateTotal();
-        saveToLocalStorage(); 
+        saveToLocalStorage();
       }
     });
 
@@ -336,11 +331,10 @@ function renderFilteredExpenses(expenses) {
 }
 
 // filter button
-document.getElementById('filterBtn').addEventListener('click', filterExpenses);
-
+document.getElementById("filterBtn").addEventListener("click", filterExpenses);
 
 //  Load and render saved data on page load
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   loadFromLocalStorage();
   UpdateTotal();
   UpdateTable();
@@ -349,10 +343,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 //toggle the add expense
 
- const showFormBtn = document.getElementById('showFormBtn');
- const form = document.getElementById('form_data');
- showFormBtn.addEventListener('click', () => {
-  form.style.display = form.style.display === 'block' ? 'none' : 'block'})
+const showFormBtn = document.getElementById("showFormBtn");
+const form = document.getElementById("form_data");
+showFormBtn.addEventListener("click", () => {
+  form.style.display = form.style.display === "block" ? "none" : "block";
+});
 
 // toggle filter
 /*
