@@ -1,120 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Expense Tracker</title>
-     <link rel="stylesheet" href="Style.css">
-   
-   </head>
-   <body>
-       
-      <header class="app-header"> 
+    <link rel="stylesheet" href="Style.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <h1>EXPENSE TRACKER APP</h1>
+      <div class="extra-actions">
+        <button id="showFormBtn">Add</button>
+        <button>Filter</button>
+      </div>
+    </header>
 
-       <h1>EXPENSE TRACKER APP</h1> 
-         <div class="extra-actions">
-         <button id="showFormBtn">Add</button>
-         <button> Filter</button>
-       </div>
-    
-      </header>
-   
-      <main>
-     <section class="form-section">
+    <main>
+      <section class="form-section">
+        <form id="form_data" class="expense-form">
+          <label for="type">Type</label>
+          <select required name="type" id="type">
+            <option value="">Select type</option>
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
 
-      <form id="form_data" class="expense-form">
-      <label for="description">Description</label>
-      <input required name="description" type="text" />
-   
-      <label for="amount">Amount</label>
-      <input required name="amount" step="any" type="number" />
-   
-      <label for="date">Date</label>
-      <input required name="date" type="date" />
-   
-      <button type="submit">Add</button>
-    </form>
-   
-   
-   </section>
+          <label for="description">Description</label>
+          <input required name="description" type="text" />
 
+          <label for="amount">Amount</label>
+          <input required name="amount" step="any" type="number" min="0" />
 
-        <section class="filter-section">
+          <label for="date">Date</label>
+          <input required name="date" type="date" />
+
+          <button type="submit">Add</button>
+        </form>
+      </section>
+
+      <section class="filter-section">
         <h3>Filter By Amount or Date</h3>
-      
+
         <label>Min Amount: <input type="number" id="minAmount" /></label>
         <label>Max Amount: <input type="number" id="maxAmount" /></label>
         <label>Start Date: <input type="date" id="startDate" /></label>
         <label>End Date: <input type="date" id="endDate" /></label>
-      
-        <button id="filterBtn">Filter</button>
-        
-      </section>
-      
 
+        <button id="filterBtn">Filter</button>
+      </section>
 
       <section class="flex-display-section">
+        <h2 class="section-title-head">Earnings vs Spendings</h2>
+        <div>
+          <div id="container_data"></div>
+        </div>
 
-            <h2 class="section-title-head">Earnings vs Spendings</h2>
-          <div>
-             <div id="container_data"></div>
-          </div> 
+        <div id="edit-modal" class="edit-modal">
+          <h3>Edit Expense</h3>
+          <form id="edit-form">
+            <select name="type" required>
+              <option value="income">Income</option>
+              <option value="expense">Expense</option>
+            </select>
+            <br />
+            <label>
+              Description:
+              <input type="text" name="description" />
+            </label>
+            <br /><br />
+            <label>
+              Amount:
+              <input type="number" name="amount" />
+            </label>
+            <br /><br />
+            <label>
+              Date:
+              <input type="date" name="date" />
+            </label>
+            <br /><br />
+            <button type="submit">Update</button>
+            <button type="button" id="close-btn">Close</button>
+          </form>
+        </div>
+      </section>
 
-          <div id="edit-modal" class="edit-modal">
-              <h3>Edit Expense</h3>
-                   <form id="edit-form">
-                     <label>
-                       Description:
-                       <input type="text" name="description" />
-                     </label>
-                     <br><br>
-                     <label>
-                       Amount:
-                       <input type="number" name="amount" />
-                     </label>
-                     <br><br>
-                     <label>
-                       Date:
-                       <input type="date" name="date" />
-                     </label>
-                     <br><br>
-                     <button type="submit">Update</button>
-                     <button type="button" id="close-btn">Close</button>
-                   </form>
-          </div>
+      <section>
+        <h2 class="section-title-head">List Of Expenses</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Amount</th>
+              <th>Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="table_body">
+            <!--data from javascript-->
+          </tbody>
+        </table>
 
-
-    </section>
-
-
-
-        <section>
-
-          <h2 class="section-title-head">List Of Expenses</h2>
-            <table>
-  <thead>
-    <tr>
-      <th>Description</th>
-      <th>Amount</th>
-      <th>Date</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody id="table_body">
-   <!--data from javascript-->
-
-  </tbody>
-</table>
-
-<h1 id="total_amount"> </h1>
-
-        </section>
+        <h1 id="total_amount"></h1>
+      </section>
     </main>
 
-   
-
-
     <script src="app.js"></script>
-</body>
+  </body>
 </html>

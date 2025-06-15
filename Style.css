@@ -88,6 +88,14 @@ body {
   outline: none;
 }
 
+.expense-form select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
 .expense-form button {
   padding: 12px;
   background-color: #4caf50;
@@ -583,7 +591,6 @@ section table {
 }
 
 @media (max-width: 480px) {
-  
   .action-buttons {
     flex-direction: column;
     gap: 8px;
